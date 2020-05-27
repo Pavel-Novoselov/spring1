@@ -13,6 +13,7 @@
         <module>lesson2-mvc</module>
         <module>lesson2-hibernate</module>
         <module>lesson3-hibernate</module>
+        <module>lesson4</module>
     </modules>
 
 

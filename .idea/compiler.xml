@@ -7,9 +7,12 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="netchat" />
-        <module name="lesson2-mvc" />
         <module name="lesson3-hibernate" />
+        <module name="lesson-4" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="lesson4" target="1.5" />
+    </bytecodeTargetLevel>
   </component>
 </project>

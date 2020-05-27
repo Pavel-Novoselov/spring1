@@ -1,8 +1,0 @@
-ru\geekbrain\controllers\UserController.class
-ru\geekbrain\entities\Product.class
-ru\geekbrain\AppConfig.class
-ru\geekbrain\entities\User.class
-ru\geekbrain\repositories\ProductRepository.class
-ru\geekbrain\WebInitializer.class
-ru\geekbrain\repositories\UserRepository.class
-ru\geekbrain\controllers\ProductController.class
