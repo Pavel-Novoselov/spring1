@@ -26,11 +26,11 @@
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
-                <a class="nav-link" href="#">Products</a>
-            </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Users</a>
+                <a class="nav-link" href="./product">Products</a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link" href="./user">Users</a>
             </li>
         </ul>
 
@@ -49,10 +49,20 @@
         <div class="col-12">
             <form>
                 <label for="minPrice">Min Price</label>
-                <input type="number" name="minPrice" id="minPrice">
+                <input type="number" name="minPrice" id="minPrice" th:value="${param.minPrice}"/>
 
                 <label for="maxPrice">Max Price</label>
-                <input type="number" name="maxPrice" id="maxPrice">
+                <input type="number" name="maxPrice" id="maxPrice" th:value="${param.maxPrice}"/>
+
+                <button class="btn btn-primary" type="submit">Filter</button>
+            </form>
+
+        </div>
+        <div class="col-12">
+            <form>
+                <label for="minPrice">Part Name of product</label>
+                <input type="text" name="partName" id="partName" th:value="${param.partName}"/>
+
 
                 <button class="btn btn-primary" type="submit">Filter</button>
             </form>
@@ -74,13 +84,13 @@
                 <tr hidden>
                     <td class="text-center" colspan="5">No data</td>
                 </tr>
-                <tr th:each="product : ${products}">
+                <tr th:each="product : ${productsPage}">
                     <th scope="row" th:text="${product.id}">1</th>
                     <td th:text="${product.title}">Macbook pro 2015</td>
                     <td th:text="${product.description}">Apple laptop</td>
                     <td th:text="${product.price}">$2000</td>
                     <td>
-                        <a class="btn btn-success" href="#"><i class="fas fa-edit"></i></a>
+                        <a class="btn btn-success" href="product/edit"><i class="fas fa-edit"></i></a>
                         <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
                     </td>
                 </tr>
@@ -88,19 +98,30 @@
             </table>
         </div>
 
-        <div class="col-12">
+        <div class="col-12" th:if="${productsPage.hasContent()}">
             <nav aria-label="...">
                 <ul class="pagination">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1">Previous</a>
+                    <li class="page-item"
+                        th:classappend="${!productsPage.hasPrevious()} ? 'disabled'">
+
+                        <a class="page-link"
+                           th:href="@{/product(page=${prevPageNumber}, size=${productsPage.size}, minPrice=${param.minPrice}, maxPrice=${param.maxPrice})}" tabindex="-1">Previous</a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item active">
-                        <a class="page-link" href="#">2 <span class="sr-only">(current)</span></a>
+
+                    <li th:each="num: ${#numbers.sequence(1, productsPage.totalPages)}"
+                        th:classappend="${num == productsPage.number + 1} ? 'active'"
+                        class="page-item">
+
+                        <a class="page-link"
+                           th:text="${num}"
+                           th:href="@{/product(page=${num}, size=${productsPage.size}, minPrice=${param.minPrice}, maxPrice=${param.maxPrice})}">1</a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
-                    <li class="page-item">
-                        <a class="page-link" href="#">Next</a>
+
+                    <li class="page-item"
+                        th:classappend="${!productsPage.hasNext()} ? 'disabled'">
+
+                        <a class="page-link"
+                           th:href="@{/product(page=${productsPage}, size=${productsPage.size}, minPrice=${param.minPrice}, maxPrice=${param.maxPrice})}">Next</a>
                     </li>
                 </ul>
             </nav>

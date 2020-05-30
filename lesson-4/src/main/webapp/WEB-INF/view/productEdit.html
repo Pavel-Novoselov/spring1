@@ -1,4 +1,5 @@
 <!doctype html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
@@ -10,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
-    <title>User</title>
+    <title>Product</title>
 </head>
 
 <body>
@@ -42,37 +43,19 @@
 <div class="container">
     <div class="row py-2">
         <div class="col-12">
-            <form th:action="@{/user}" method="post" th:object="${user}">
-                <input th:type="hidden" th:field="*{id}">
+            <form th:action="@{/product/productEdit}" method="post" th:object="${product}">
+                <input type="hidden" th:field="*{id}">
                 <div class="form-group">
-                    <label for="name">Name</label>
-                    <input type="text" id="name" th:field="*{name}" class="form-control"  placeholder="Enter name">
-                    <small id="nameError" class="form-text text-error"
-                           th:if="${#fields.hasErrors('name')}" th:errors="*{name}">Validation error</small>
+                    <label for="name">Title</label>
+                    <input type="text" id="name" th:field="*{title}" class="form-control"  placeholder="Enter name">
                 </div>
                 <div class="form-group">
-                    <label for="name">Email</label>
-                    <input type="text" id="email" th:field="*{email}" class="form-control"  placeholder="Enter email">
-                    <small id="emailError" class="form-text text-error"
-                           th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Validation error</small>
+                    <label for="description">Description</label>
+                    <input type="text" id="description" th:field="*{description}" class="form-control"  placeholder="Enter description">
                 </div>
                 <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" th:field="*{password}" class="form-control"  placeholder="Enter password">
-                    <small id="passwordError" class="form-text text-error"
-                           th:if="${#fields.hasErrors('password')}" th:errors="*{password}">Validation error</small>
-                </div>
-                <div class="form-group">
-                    <label for="repeatPassword">Repeat password</label>
-                    <input type="password" id="repeatPassword" th:field="*{repeatPassword}" class="form-control"  placeholder="Enter password">
-                    <small id="repeatPasswordError" class="form-text text-error"
-                           th:if="${#fields.hasErrors('repeatPassword')}" th:errors="*{repeatPassword}">Validation error</small>
-                </div>
-                <div class="form-group">
-                    <label for="age">Age</label>
-                    <input type="number" id="age" th:field="*{age}" class="form-control"  placeholder="Enter user age">
-                    <small id="AgeError" class="form-text text-error"
-                           th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Validation error</small>
+                    <label for="price">Price</label>
+                    <input type="number" id="price" th:field="*{price}" class="form-control" placeholder="Enter price">
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

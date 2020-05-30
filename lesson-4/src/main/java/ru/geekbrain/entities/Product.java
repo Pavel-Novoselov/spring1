@@ -3,6 +3,8 @@ package ru.geekbrain.entities;
 import org.springframework.context.annotation.Bean;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 @Entity
@@ -12,10 +14,12 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @NotBlank
     private String title;
 
     private String description;
 
+    @NotNull
     private BigDecimal price;
 
     public Product() {
