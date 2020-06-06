@@ -90,8 +90,12 @@
                     <td th:text="${product.description}">Apple laptop</td>
                     <td th:text="${product.price}">$2000</td>
                     <td>
-                        <a class="btn btn-success" href="product/edit"><i class="fas fa-edit"></i></a>
-                        <a class="btn btn-danger" href="#"><i class="far fa-trash-alt"></i></a>
+                        <!--                       <a class="btn btn-success" href="product/edit"><i class="fas fa-edit"></i></a>-->
+                        <a class="btn btn-success" th:href="@{/product/edit(id=${product.id})}"><i
+                                class="fas fa-edit"></i></a>
+                        <form th:action="@{/product(id=${product.id})}" th:method="delete" >
+                            <button class="btn btn-danger"><i class="far fa-trash-alt"></i></button>
+                        </form>
                     </td>
                 </tr>
                 </tbody>
@@ -105,7 +109,8 @@
                         th:classappend="${!productsPage.hasPrevious()} ? 'disabled'">
 
                         <a class="page-link"
-                           th:href="@{/product(page=${prevPageNumber}, size=${productsPage.size}, minPrice=${param.minPrice}, maxPrice=${param.maxPrice})}" tabindex="-1">Previous</a>
+                           th:href="@{/product(page=${prevPageNumber}, size=${productsPage.size}, minPrice=${param.minPrice}, maxPrice=${param.maxPrice})}"
+                           tabindex="-1">Previous</a>
                     </li>
 
                     <li th:each="num: ${#numbers.sequence(1, productsPage.totalPages)}"
@@ -128,7 +133,7 @@
         </div>
     </div>
 
-    </div>
+</div>
 </div>
 
 <!-- Optional JavaScript -->

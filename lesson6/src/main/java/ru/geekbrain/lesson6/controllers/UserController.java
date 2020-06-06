@@ -36,7 +36,7 @@ public class UserController {
                            @RequestParam(name = "minAge", required = false, defaultValue = "1") Integer minAge,
                            @RequestParam(name = "maxAge", required = false, defaultValue = "100") Integer maxAge,
                            @RequestParam(name = "page") Optional<Integer> page,
-                           @RequestParam(name = "size") Optional<Integer> size) {
+                           @RequestParam(name = "size", defaultValue = "5") Optional<Integer> size) {
         logger.info("User list. With minAge = {} and maxAge = {}", minAge, maxAge);
 
         //model.addAttribute("usersPage", userService.filterByAge(minAge, maxAge, PageRequest.of(page.orElse(1)-1, size.orElse(3))));

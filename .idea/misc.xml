@@ -3,11 +3,17 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/lesson-4" />
+    <file type="web" url="file://$PROJECT_DIR$/lesson6-spring-boot" />
+  </component>
+  <component name="JavaScriptSettings">
+    <option name="languageLevel" value="ES6" />
   </component>
   <component name="MavenProjectsManager">
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/lesson6-spring-boot/pom.xml" />
+        <option value="$PROJECT_DIR$/lesson6/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

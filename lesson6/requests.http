@@ -1,0 +1,42 @@
+GET http://localhost:8088/api/product/all
+
+###
+
+POST http://localhost:8088/api/product/
+Content-Type: application/json
+
+{
+    "title": "iphone 71",
+    "description": "super111",
+    "price": 190000.00
+  }
+
+###
+PUT  http://localhost:8088/api/product/
+Content-Type: application/json
+
+{
+  "id": 10,
+  "title": "iphone 71x",
+  "description": "22super111",
+  "price": 195000.00
+}
+
+###
+
+DELETE http://localhost:8088/api/product/10/id
+
+###
+
+# curl "http://localhost:8088/api/product/all" -H "User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0" -H "Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8" -H "Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3" --compressed -H "DNT: 1" -H "Connection: keep-alive" -H "Upgrade-Insecure-Requests: 1" -H "Cache-Control: max-age=0"
+GET http://localhost:8088/api/product/all
+User-Agent: Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8
+Accept-Language: ru-RU,ru;q=0.8,en-US;q=0.5,en;q=0.3
+DNT: 1
+Connection: keep-alive
+Upgrade-Insecure-Requests: 1
+Cache-Control: max-age=0
+
+###
+

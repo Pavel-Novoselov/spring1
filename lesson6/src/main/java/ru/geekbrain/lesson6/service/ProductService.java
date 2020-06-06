@@ -46,6 +46,11 @@ public class ProductService {
         }
     }
 
+    @Transactional
+    public void deleteProduct(long id){
+        productRepository.deleteById(id);
+    }
+
 
     @Transactional
     public Page<Product> filterByPriceAndName (BigDecimal minPrice, BigDecimal maxPrice, String partName, Pageable pageable) {

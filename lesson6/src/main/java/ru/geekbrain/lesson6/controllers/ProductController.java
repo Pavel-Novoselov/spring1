@@ -8,10 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import ru.geekbrain.lesson6.entities.Product;
 import ru.geekbrain.lesson6.service.ProductService;
 
@@ -71,24 +68,37 @@ public class ProductController {
         return "redirect:/product";
     }
 
-    @GetMapping("edit")
-    public String editProduct(Model model) {
-        logger.info("Edit Product form");
+//    @GetMapping("edit")
+//    public String editProduct(Model model) {
+//        logger.info("Edit Product form");
+//
+//        model.addAttribute("product", new Product());
+//        return "productEdit";
+//    }
 
-        model.addAttribute("product", new Product());
-        return "productEdit";
+//    @PostMapping ("productEdit")
+//    public String editProduct(Product product, BindingResult bindingResult) {
+//        logger.info("Edit user method");
+//
+//        if (bindingResult.hasErrors()) {
+//            return "product";
+//        }
+//        productService.editProduct(product);
+//        return "redirect:/product";
+//    }
+
+    @GetMapping("edit")
+    public String editProduct(@RequestParam long id, Model model){
+
+        model.addAttribute("product", productService.findById(id));
+        return "product";
+
     }
 
-    @PostMapping ("productEdit")
-    public String editProduct(Product product, BindingResult bindingResult) {
-        logger.info("Edit user method");
-
-        if (bindingResult.hasErrors()) {
-            return "product";
-        }
-
-
-        productService.editProduct(product);
+    @DeleteMapping
+    public String deleteProduct(@RequestParam Long id){
+        System.out.println("delete");
+        productService.deleteProduct(id);
         return "redirect:/product";
     }
 }
