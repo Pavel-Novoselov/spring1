@@ -8,14 +8,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
+import ru.geekbrain.lesson6.controllers.rest.NotFoundException;
 import ru.geekbrain.lesson6.entities.User;
+import ru.geekbrain.lesson6.repositories.RoleRepository;
 import ru.geekbrain.lesson6.service.UserService;
 
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @RequestMapping("/user")
@@ -24,23 +24,25 @@ public class UserController {
 
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    private UserService userService;
+    private final UserService userService;
+    private final RoleRepository roleRepository;
 
     @Autowired
-    public UserController(UserService userService) {
+    public UserController(UserService userService, RoleRepository roleRepository) {
         this.userService = userService;
+        this.roleRepository = roleRepository;
     }
 
     @GetMapping
     public String userList(Model model,
                            @RequestParam(name = "minAge", required = false, defaultValue = "1") Integer minAge,
                            @RequestParam(name = "maxAge", required = false, defaultValue = "100") Integer maxAge,
-                           @RequestParam(name = "page") Optional<Integer> page,
-                           @RequestParam(name = "size", defaultValue = "5") Optional<Integer> size) {
+                           @RequestParam(value = "username", required = false, defaultValue = "") String username,
+                           @RequestParam("page") Optional<Integer> page,
+                           @RequestParam("size") Optional<Integer> size) {
         logger.info("User list. With minAge = {} and maxAge = {}", minAge, maxAge);
 
-        //model.addAttribute("usersPage", userService.filterByAge(minAge, maxAge, PageRequest.of(page.orElse(1)-1, size.orElse(3))));
-        Page<User> userPage = userService.filterByAge(minAge, maxAge,
+        Page<User> userPage = userService.filterByAge(minAge, maxAge, username,
                 PageRequest.of(page.orElse(1) - 1, size.orElse(5)));
         model.addAttribute("usersPage", userPage);
         model.addAttribute("prevPageNumber", userPage.hasPrevious() ? userPage.previousPageable().getPageNumber() + 1 : -1);
@@ -53,13 +55,23 @@ public class UserController {
         logger.info("Create user form");
 
         model.addAttribute("user", new User());
+        model.addAttribute("roles", roleRepository.findAll());
+        return "user";
+    }
+
+    @GetMapping("edit")
+    public String editUser(@RequestParam("id") Long id, Model model) {
+        logger.info("Edit user with id {}", id);
+
+        model.addAttribute("user", userService.findById(id)
+                .orElseThrow(() -> new NotFoundException()));
+        model.addAttribute("roles", roleRepository.findAll());
         return "user";
     }
 
     @PostMapping
-    public String saveUser(User user, BindingResult bindingResult) {
+    public String saveUser(@Valid User user, BindingResult bindingResult) {
         logger.info("Save user method");
-
 
         if (bindingResult.hasErrors()) {
             return "user";
@@ -67,11 +79,6 @@ public class UserController {
         logger.info("password {} repeat {}", user.getPassword(), user.getRepeatPassword());
         if (!user.getPassword().equals(user.getRepeatPassword())) {
             bindingResult.rejectValue("repeatPassword", "", "пароли не совпадают");
-            return "user";
-        }
-
-        if (user.getAge()<16){
-            bindingResult.rejectValue("age", "", "вы еще слишком молоды!");
             return "user";
         }
 
@@ -79,32 +86,14 @@ public class UserController {
         return "redirect:/user";
     }
 
-    @GetMapping("edit")
-    public String editUser(Model model) {
-        logger.info("Edit user form");
+    @DeleteMapping
+    public String deleteUser(@RequestParam(name = "id") Long id) {
+        logger.info("Delete user with id {}", id);
 
-        model.addAttribute("user", new User());
-        return "userEdit";
-    }
-
-    @PostMapping ("userEdit")
-    public String editUser(User user, BindingResult bindingResult) {
-        logger.info("Edit user method");
-
-        if (bindingResult.hasErrors()) {
-            return "user";
-        }
-        logger.info("password {} repeat {}", user.getPassword(), user.getRepeatPassword());
-        if (!user.getPassword().equals(user.getRepeatPassword())) {
-            bindingResult.rejectValue("repeatPassword", "", "пароли не совпадают");
-            return "user";
-        }
-
-        if (user.getAge()<16){
-            bindingResult.rejectValue("age", "", "вы еще слишком молоды!");
-            return "user";
-        }
-        userService.editUser(user);
+        userService.delete(id);
         return "redirect:/user";
     }
+
+
 }
+

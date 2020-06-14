@@ -1,5 +1,4 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
@@ -12,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"/>
-    <title>Product</title>
+    <title>User</title>
 </head>
 
 <body>
@@ -35,7 +34,7 @@
             </li>
         </ul>
 
-        <form sec:authorize="hasRole('ADMIN')" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+        <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
             <button class="btn btn-outline-success my-2 my-sm-0">
                 Logout <span sec:authentication="principal.username"></span>
             </button>
@@ -43,27 +42,8 @@
     </div>
 </nav>
 
-<div class="container">
-    <div class="row py-2">
-        <div class="col-12">
-            <form th:action="@{/product}" method="post" th:object="${product}">
-                <input type="hidden" th:field="*{id}">
-                <div class="form-group">
-                    <label for="name">Title</label>
-                    <input type="text" id="name" th:field="*{title}" class="form-control"  placeholder="Enter name">
-                </div>
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <input type="text" id="description" th:field="*{description}" class="form-control"  placeholder="Enter description">
-                </div>
-                <div class="form-group">
-                    <label for="price">Price</label>
-                    <input type="number" id="price" th:field="*{price}" class="form-control" placeholder="Enter price">
-                </div>
-                <button type="submit" class="btn btn-primary">Submit</button>
-            </form>
-        </div>
-    </div>
+<div class="header-panel">
+    <h1>Welcome to our E-Shop</h1>
 </div>
 
 <!-- Optional JavaScript -->

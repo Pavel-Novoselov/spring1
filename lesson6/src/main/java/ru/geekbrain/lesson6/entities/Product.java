@@ -12,12 +12,10 @@ public class Product {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @NotBlank
     private String title;
 
     private String description;
 
-    @NotNull
     private BigDecimal price;
 
     public Product() {

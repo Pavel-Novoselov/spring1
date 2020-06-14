@@ -1,30 +1,44 @@
 package ru.geekbrain.lesson6.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import java.util.Set;
 
 @Entity
 @Table(name = "users")
 public class User {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
+    @Column(length = 32, nullable = false)
     private String name;
 
+    @NotBlank
+    @Column(length = 128, nullable = false)
     private String password;
 
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
+
+    @JsonIgnore
     @Transient
     private String repeatPassword;
 
     @Email
+    @Column
     private String email;
 
-    @NotNull
-    private int age;
+    @Column
+    private Integer age;
 
     public User() {
     }
@@ -59,14 +73,6 @@ public class User {
         this.password = password;
     }
 
-    public int getAge() {
-        return age;
-    }
-
-    public void setAge(int age) {
-        this.age = age;
-    }
-
     public String getRepeatPassword() {
         return repeatPassword;
     }
@@ -75,11 +81,27 @@ public class User {
         this.repeatPassword = repeatPassword;
     }
 
+    public Integer getAge() {
+        return age;
+    }
+
+    public void setAge(Integer age) {
+        this.age = age;
+    }
+
     public String getEmail() {
         return email;
     }
 
     public void setEmail(String email) {
         this.email = email;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }
