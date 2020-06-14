@@ -1,4 +1,5 @@
 GET http://localhost:8088/api/product/all
+Authorization: Basic 123 123
 
 ###
 
