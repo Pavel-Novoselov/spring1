@@ -20,7 +20,7 @@
         </plugins>
     </build>
     <properties>
-        <spring.release>5.2.5.RELEASE</spring.release>
+        <spring.release>5.3.18</spring.release>
     </properties>
     <dependencies>
         <!-- https://mvnrepository.com/artifact/org.springframework/spring-core -->
