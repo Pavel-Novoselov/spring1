@@ -1,5 +1,6 @@
 <!doctype html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
     <!-- Required meta tags -->
@@ -33,8 +34,10 @@
             </li>
         </ul>
 
-        <form class="form-inline my-2 my-lg-0" action="#" method="post">
-            <button class="btn btn-outline-success my-2 my-sm-0">Logout</button>
+        <form sec:authorize="isAuthenticated()" class="form-inline my-2 my-lg-0" th:action="@{/logout}" method="post">
+            <button class="btn btn-outline-success my-2 my-sm-0">
+                Logout <span sec:authentication="principal.username"></span>
+            </button>
         </form>
     </div>
 </nav>
@@ -73,6 +76,15 @@
                     <input type="number" id="age" th:field="*{age}" class="form-control"  placeholder="Enter user age">
                     <small id="AgeError" class="form-text text-error"
                            th:if="${#fields.hasErrors('age')}" th:errors="*{age}">Validation error</small>
+                </div>
+                <div class="form-group">
+                    <label for="roles">Roles</label>
+                    <select multiple class="form-control" id="roles" th:field="*{roles}" required>
+                        <option th:each="role : ${roles}"
+                                th:text="${role.name}"
+                                th:value="${role.id}"
+                                th:selected="${user.roles?.contains(role)}"></option>
+                    </select>
                 </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>

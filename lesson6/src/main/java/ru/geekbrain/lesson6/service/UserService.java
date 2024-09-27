@@ -3,6 +3,7 @@ package ru.geekbrain.lesson6.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.geekbrain.lesson6.entities.User;
@@ -13,11 +14,13 @@ import java.util.Optional;
 @Service
 public class UserService {
 
-    private UserRepository repository;
+    private final UserRepository repository;
+    private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserService(UserRepository repository) {
+    public UserService(UserRepository repository, PasswordEncoder passwordEncoder) {
         this.repository = repository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Transactional(readOnly = true)
@@ -25,18 +28,19 @@ public class UserService {
         return repository.findAll(pageable);
     }
 
-    public Page<User> filterByAge(Integer minAge, Integer maxAge, Pageable pageable) {
+    public Page<User> filterByAge(Integer minAge, Integer maxAge, String username, Pageable pageable) {
 //        if (minAge==0 && maxAge==0)
 //            return repository.findAll();
 //        if (minAge==0)
 //            return repository.findByAgeGreaterThan(minAge);
 //        if (maxAge==0)
 //            return repository.findByAgeLessThan(maxAge);
-        return repository.findByAgeGreaterThanEqualAndAgeLessThanEqual(minAge, maxAge, pageable);
+        return repository.findByAgeGreaterThanEqualAndAgeLessThanEqualAndNameLike(minAge, maxAge, username+"%", pageable);
     }
 
     @Transactional
     public void save(User user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         repository.save(user);
     }
 
@@ -56,5 +60,10 @@ public class UserService {
             System.out.println("id="+u.getId());
             repository.save(u);
         }
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        repository.deleteById(id);
     }
 }
